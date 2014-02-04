@@ -7,16 +7,13 @@ PROXY_URL="ba-simple-proxy.php";
 API_KEY="2a78b1a65702832d27b817a908b42f227f8dc377";//todo::APIキー 最終はキーなしで取得出来る必要あり
 CAT_URL="http://beta.shirasete.jp/projects/ieiri-poster/issue_categories.json";
 ISSU_URL="http://beta.shirasete.jp/projects/ieiri-poster/issues.json";
-<<<<<<< HEAD
 ISSU_LIMIT=100;//1回のリクエスト件数の上限
-=======
 ZOOM_LEVEL=15;
->>>>>>> 95a101407ab1125321e919035d815a5c7ac11413
 MAXZOOM=19;
 MINZOOM=9;
 DEFAULT_LAT=35.69623329057935;
 DEFAULT_LNG=139.70226834829097;
-
+TWEET_FORMAT="「@posterdone <$subject$> #家入ポスター貼ってるってよ」";
 var currentInfoWindow;
 
 $(function() {
@@ -369,7 +366,21 @@ function book_mark(tar,id){
     var res=m_map_data_manager.tlg_bookmark(id);
 }
 
+/*テキストareaの全選択*/
+function tweet_txt_copy(tar_id){
+    /*var tar=$("#"+tar_id);
+    var text =tar[0];
+    var end = text.value.length;
+    text.focus();
+    text.setSelectionRange(0,end);
 
+
+    setTimeout(function() {
+        var dummy = $('.info_w_contents')[0];
+        dummy.focus();
+    },500);
+     */
+}
 
 /**
  * 現在の地図の中心位置から近くの掲示板を取得 todo::実装検討

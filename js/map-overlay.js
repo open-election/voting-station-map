@@ -73,7 +73,9 @@ MapOverlay.prototype.refresh=function(){
     //完了時と未貼り付け時で吹き出しを変える
     if(this.data_.status.id==1){
         //未貼り付け
-        this.info.setContent('<div class="info_w_contents open" style="margin: 5px;">' +'ID:'+id+'<br/>'+subject + '<br/>' + description+'<br/>●'+this.data_.status.name+'<hr/><a onclick="book_mark(this,'+id+')" class="btn comp'+(is_select?" selected":"")+'" >Mark</a>'+"</div>");
+        var t_str='完了したら↓↓をtwitterにコピペで報告<br/><textarea onfocus="tweet_txt_copy(\'tweet_txt_'+id+'\')" id="tweet_txt_'+id+'" class="tweet_txt" name="tweet_txt" >'+TWEET_FORMAT.replace('<$subject$>',subject)+'</textarea>';
+        //this.info.setContent('<div class="info_w_contents open" style="margin: 5px;">' +'ID:'+id+'<br/>'+subject + '<br/>' + description+'<br/>●'+this.data_.status.name+'<hr/><a onclick="book_mark(this,'+id+')" class="btn comp'+(is_select?" selected":"")+'" >Mark</a></div>');
+        this.info.setContent('<div class="info_w_contents open" style="margin: 5px;">' +'ID:'+id+'<br/>'+subject + '<br/>' + description+'<br/>●'+this.data_.status.name+'<hr/>'+t_str+'</div>');
     }else{
         //完了・その他
         this.info.setContent('<div class="info_w_contents close other" style="margin: 5px;">' +'ID:'+id+'<br/>'+subject + '<br/>' + description+'<br/>●'+this.data_.status.name+"</div>");

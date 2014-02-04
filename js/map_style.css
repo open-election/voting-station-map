@@ -381,3 +381,9 @@ padding-bottom: 4px;
 .info_w_contents.other{
     background-color: #F1F1F1;
 }
+/*ツイッターコピー用テキストarea*/
+.info_w_contents textarea.tweet_txt{
+    width: 175px;
+    height: 71px;
+    font-size: 12px;
+}

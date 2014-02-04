@@ -32,7 +32,7 @@
         </li>
     </ul>
 <a id="move_loc" href="javascript:void(0);" onclick="move_loc()" class="btn">付近の掲示板を表示</a>
-<a href="javascript:void(0);" onclick="show_float_panel('bookmark')" class="btn">MarkList</a>
+<!--<a href="javascript:void(0);" onclick="show_float_panel('bookmark')" class="btn">MarkList</a>-->
 <a id="info_btn" href="javascript:void(0);" onclick="show_float_panel('info')" class="btn">説明</a>
 <a id="adv_btn" href="javascript:void(0);" onclick="show_float_panel('adv')" >★</a>
 </div>
