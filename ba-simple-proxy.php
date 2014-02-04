@@ -18,10 +18,6 @@ while ($flag) {
 
   if (isset($json->{'total_count'}) && isset($json->{'issues'}) && $json->{'total_count'} > count($json->{'issues'})) {
     $url = $_GET['url'] . "&offset=" . count($json->{'issues'});
-    if ($loop > 2) {
-
-      $flag = false;
-    }
   } else {
     $flag = false;
   }
