@@ -2,10 +2,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, user-scalable=no,initial-scale=1.0,maximum-scale=1.0, minimum-scale=1.0" />
-
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="BoardMap">
     <title>MAP</title>
     <link href="js/button.css" rel="stylesheet" media="all" type="text/css" />
     <link href="js/map_style.css" rel="stylesheet" media="all" type="text/css" />
+    <!-- <link href="/img/apple-touch-icon-120x120.png" sizes="120x120" rel="apple-touch-icon" /> -->
 
     <script type="text/javascript" src="js/jquery-1.6.4.min.js"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
