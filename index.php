@@ -3,7 +3,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, user-scalable=no,initial-scale=1.0,maximum-scale=1.0, minimum-scale=1.0" />
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="BoardMap">
     <title>MAP</title>
     <link href="js/button.css" rel="stylesheet" media="all" type="text/css" />
