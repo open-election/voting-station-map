@@ -1,7 +1,10 @@
 /**
  * 地図データ管理
  * ●イベント
-
+ * データ更新前イベント on_map_data_change_befor (void)
+ * 受信件数状況通知イベント on_map_data_receive_info (request_args：APIリクエスト引数obj,status_info：行政区別のロード情報)
+ * データ要求中イベント on_map_data_requesting (request_args：APIリクエスト引数obj )
+ * データ要求完了イベント on_map_data_completion (void)
 */
 
 (function($) {
@@ -11,20 +14,21 @@
 $.m_map_data_manager = function(element, options) {
   var plugin = this;
   var defaults ={
-        'status_id':'open',//todo::取得モード　未貼付け close 終了 open 引数のリテラル確認
+        'status_id':'open',//取得モード　未貼付け close 終了 open 引数のリテラル確認
         'category_ids':[],
         'location':[]
    };
   plugin.settings = {};
   var $element = $(element),element = element;
   var _select_comp_list={};
-    var _select_comp_list_data={};
+  var _select_comp_list_data={};
   var _map_data={};
   var _del_map_list=[];
   var _add_map_list=[];
   var _overlay = {};
   var _is_show_info=false;
   var _zoomLevel;
+  var _load_record_info={};//読み込み対象のレコード情報を行政区別に格納
   ////////usr constructor//////////////
   plugin.init = function() {
     plugin.settings = $.extend({}, defaults, options);//デフォルト値の上書き
@@ -93,14 +97,39 @@ $.m_map_data_manager = function(element, options) {
         if(!plugin.settings.category_ids.length){return;}
         //データ更新前イベント
         $(element).trigger("on_map_data_change_befor");
+        _clear_load_record_info();
+        //行政区複数選択の場合はループで呼び出す
         for(var i in plugin.settings.category_ids){
-            var category_id=plugin.settings.category_ids[i];
-            if(DEBUG_PROXY){
-                $.getJSON(PROXY_URL,{'url':ISSU_URL+'?key='+API_KEY+'&status_id='+plugin.settings.status_id+'&category_id='+category_id+'&limit=100'},_receive_new_area);
-            }else{
-                $.getJSON(ISSU_URL,{'key':API_KEY,'status_id':plugin.settings.status_id,'category_id':category_id,'limit':100},_receive_new_area);
-            }
+            _load(plugin.settings.category_ids[i]);
         }
+        //
+        function _load(cat_id,offset){
+            offset=(!offset)?0:offset;
+            var request_args={'key':API_KEY,'status_id':plugin.settings.status_id,'category_id':cat_id,'offset':offset,'limit':ISSU_LIMIT};
+            $(element).trigger("on_map_data_requesting",[request_args]);//データ要求中イベント
+            if(DEBUG_PROXY){
+              $.getJSON(PROXY_URL,{'url':ISSU_URL+'?'+ $.param(request_args)},_cb);
+            }else{
+              $.getJSON(ISSU_URL,request_args,_cb);
+            }
+
+          //load_data用CB //上限以上のレコードがある場合はoffsetを追加してさらに読み込む
+          function _cb(d){
+              //len、limit、offsetが無い場合の担保（無限ロード防止）
+              var limit=(d.limit)?d.limit:ISSU_LIMIT;
+              var offset=(d.offset)? d.offset:0;
+              var total_count=(d.total_count)? d.total_count:0;
+              _set_load_record_info(request_args,d);//レコード情報を設定
+              //total_countに満たない場合は追加読み込み
+              if((offset+limit)<total_count){
+                  _load(cat_id,offset+limit);
+              }else{
+                  $(element).trigger("on_map_data_completion");//データ要求完了イベント
+              }
+              _receive_new_area(d);
+          }
+        }
+
   };
 
   /**
@@ -108,14 +137,33 @@ $.m_map_data_manager = function(element, options) {
    */
   plugin.load_nearby_data = function(){
         if(!plugin.settings.location.length){return;}
+        var loc = plugin.settings.location;
         //データ更新前イベント
-        var loc = plugin.settings.location
         $(element).trigger("on_map_data_change_befor");
+        _clear_load_record_info();
+        var request_args={'key':API_KEY,'status_id':plugin.settings.status_id,'sort':'geom:' + loc.join(','),'offset':offset,'limit':ISSU_LIMIT};
+        $(element).trigger("on_map_data_requesting",[request_args]);//データ要求中イベント
         if(DEBUG_PROXY){
-          $.getJSON(PROXY_URL,{'url':ISSU_URL+'?key='+API_KEY+'&status_id='+plugin.settings.status_id+'&sort=geom:'+loc.join(',')+'&limit=100'},_receive_new_area);
+          $.getJSON(PROXY_URL,{'url':ISSU_URL+'?'+ $.param(request_args)},_cb);
         }else{
-          $.getJSON(ISSU_URL,{'key':API_KEY,'status_id':plugin.settings.status_id,'sort':'geom:' + loc.join(','),'limit':100},_receive_new_area);
+          $.getJSON(ISSU_URL,request_args,_cb);
         }
+
+      //load_data用CB //上限以上のレコードがある場合はoffsetを追加してさらに読み込む
+      function _cb(d){
+          //len、limit、offsetが無い場合の担保
+          var limit=(d.limit)?d.limit:ISSU_LIMIT;
+          var offset=(d.offset)? d.offset:0;
+          var total_count=(d.total_count)? d.total_count:0;
+          _set_load_record_info(request_args,d);//レコード情報を設定
+
+          if((offset+limit)<total_count){
+            // alert("現在の範囲では"+limit+"以上の件数があります。"+limit+"件以上は表示されません。\r縮尺を下げて表示して下さい。")
+          }
+          $(element).trigger("on_map_data_completion");//データ要求完了イベント
+
+          _receive_new_area(d);
+      }
   };
 
 
@@ -141,7 +189,10 @@ $.m_map_data_manager = function(element, options) {
         // マーカー全体を囲む矩形を算出
         var obj_len=0;
         for (var i in _overlay){
-            bounds.extend(_overlay[i].get_marker_position());
+            var m=_overlay[i].get_marker_position();
+            if(m){
+                bounds.extend(m);
+            }
             ++obj_len;
         }
         if(obj_len){
@@ -210,6 +261,21 @@ $.m_map_data_manager = function(element, options) {
             return 0;
         });
         return list;
+    }
+
+    /**
+     * 読み込み対象のレコード件数情報の取得
+     */
+    plugin.get_load_record_info=function(){
+        var total_count=0;
+        var now_cnt=0;
+        var status_id;
+        for(var i in _load_record_info){
+            total_count+=_load_record_info[i].total_count;
+            now_cnt+=_load_record_info[i].now_cnt;
+            status_id=_load_record_info[i].status_id;// ∞対1
+        }
+        return{'status_id':status_id,'now_cnt':now_cnt,'total_count':total_count,'detail':_load_record_info};
     }
 //=============================================================================
 // private method
@@ -373,6 +439,41 @@ $.m_map_data_manager = function(element, options) {
         var r=Math.min(latZoom, lngZoom, ZOOM_MAX);
 
         return isNaN(r)?MINZOOM:r;
+    }
+
+    /**
+     * 読み込み対象のレコード情報を設定
+     * @private
+     */
+    var _set_load_record_info=function(request_args,data){
+        var status_id=request_args.status_id;
+        var category_id=request_args.category_id;
+        if(!category_id){return;}
+        var limit=data.limit;
+        var offset=data.offset;
+        var total_count=data.total_count;
+        var len=(data.issues instanceof Array)? data.issues.length:0;
+        var status_info={'category_id':category_id,'status_id':status_id,'now_cnt':offset+len,'total_count':total_count};
+        _load_record_info[category_id]=status_info;
+        $(element).trigger("on_map_data_receive_info",[request_args,status_info]);//受信件数状況イベント通知
+    }
+    /**
+     * 読み込み対象のレコード情報を初期化
+     */
+    var _clear_load_record_info=function(){
+        _load_record_info={};
+    }
+
+
+    /**
+     * objectのlengthを算出
+     */
+    var _obj_len=function(obj){
+        var cnt=0;
+        for(var i in obj){
+           ++cnt;
+        }
+        return cnt;
     }
 //=============================================================================
 // plgin private method

@@ -19,7 +19,9 @@ function MapOverlay(map,data,manager_ref,select_comp_list) {
     this.latlng=null;
     var geo=eval("a="+this.data_.geometry);
     if(geo.coordinates){
-        this.latlng=new google.maps.LatLng(geo.coordinates[1],geo.coordinates[0]);
+        if(!isNaN(parseInt(geo.coordinates[1]))&& !isNaN(parseInt(geo.coordinates[0]))){
+            this.latlng=new google.maps.LatLng(geo.coordinates[1],geo.coordinates[0]);
+        }
     }
 
 
@@ -68,8 +70,14 @@ MapOverlay.prototype.refresh=function(){
     var description=this.data_.description;
     var subject=this.data_.subject;
     var is_select=this.select_comp_list[id];
-
-    this.info.setContent( 'ID:'+id+'<br/>'+subject + '<br/>' + description+'<br/><a onclick="book_mark(this,'+id+')" class="btn comp'+(is_select?" selected":"")+'" >Mark</a>');
+    //完了時と未貼り付け時で吹き出しを変える
+    if(this.data_.status.id==1){
+        //未貼り付け
+        this.info.setContent('<div class="info_w_contents open" style="margin: 5px;">' +'ID:'+id+'<br/>'+subject + '<br/>' + description+'<br/>●'+this.data_.status.name+'<hr/><a onclick="book_mark(this,'+id+')" class="btn comp'+(is_select?" selected":"")+'" >Mark</a>'+"</div>");
+    }else{
+        //完了・その他
+        this.info.setContent('<div class="info_w_contents close other" style="margin: 5px;">' +'ID:'+id+'<br/>'+subject + '<br/>' + description+'<br/>●'+this.data_.status.name+"</div>");
+    }
     this.marker.setIcon(this.createIco_img(is_select));
 }
 

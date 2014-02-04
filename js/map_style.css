@@ -45,7 +45,28 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-
+h1{
+    color: #5C240E;
+    font-weight: bold;
+    display: block;
+    font-size: 15px;
+    border: 1px solid #FF5200;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-indent: 8px;
+    background-color: #FFFBE4;
+    padding: 4px;
+}
+h3 {
+    margin-top: 6px;
+    margin-left: 10px;
+    color: #BE4C00;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 3px;
+    display: block;
+    border-left: 6px solid #FF6600;
+}
 /******common*******/
 body *{
 font-family:"メイリオ","Meiryo",arial,"ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"ＭＳ Ｐゴシック","MS PGothic",Sans-Serif;
@@ -102,7 +123,7 @@ background-repeat:repeat-x;
 /*ヘッダー領域*/
 #header{
     margin: 0;
-    padding: 8px;
+    padding: 8px 44px 8px 8px;
     text-align: left;
     background-color: #666666;
 }
@@ -116,12 +137,19 @@ margin: 0 4px;
 #header ul li{
     display: inline-block;
 }
+/*付近の掲示板を表示ボタン*/
+#move_loc{
+    font-size: 11px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
 /*#header ul li.distince{
     width: 80px;
 }
 #header ul li.status{
     width: 80px;
 }*/
+/*ヘッダーのコントロール*/
 #header select{
     display: inline-block;
     padding: 4px 10px 4px;
@@ -131,18 +159,75 @@ margin: 0 4px;
     background-color: #f5f5f5;
     text-align: center;
 }
+
+#adv_btn,#adv_btn:hover {
+    position: absolute;
+    top: 4;
+    width: 34px;
+    height: 33px;
+    margin: 0 !important;
+    border-radius: 4px 0 0 4px;
+    background: #EBEBEB;
+    font-size: 24px;
+    line-height: 33px;
+    text-align: center;
+    color: #383838;
+    text-decoration: none;
+    right: 0;
+    box-shadow: 1px 1px 3px #575757;
+    border: 1px solid #F3F3F3;
+
+}
+
+#info_btn{
+    float: right;
+}
+
+/*要求中の件数等*/
+#map_data_receive_info_wrap{
+    background-color: #333;
+    position: absolute;
+    width: 80px;
+    height: 28px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    display: inline-block;
+    vertical-align: middle;
+    top: 10px;
+    right: 10px;
+    z-index: 100;
+}
+#map_data_receive_roading_img,#map_data_receive_roading_mark{
+    position: absolute;
+    top:2px;
+    left: 2px;
+    width: 24px;
+    height: 24px;
+    display: none;
+}
+#map_data_receive_roading_mark{
+    display: block;
+}
+#map_data_receive_info{
+    position: absolute;
+    right: 0;
+    line-height: 28px;
+    margin-right: 2px;
+    color: #fff;
+    font-size: 10px;
+    font-weight: normal;
+}
 /**パネル**/
 #float_panel{
     position: absolute;
     z-index: 1000;
-    top: 100px;
-    width: 90%;
+    overflow-y: scroll;
+    /*top: 100px;
+    width: 90%;*/
     margin: 0;
     text-align: center;
     padding: 6px 10px;
     background-color: #FFF;
-    /*background-color: rgba(255,255,255,0.6);*/
-    overflow: hidden;
     display: block;
     border: 1px solid #666;
     border-radius: 10px;
@@ -162,14 +247,21 @@ margin: 0 4px;
     font-size: 14px;
 }
 
-#float_panel ul li{
+/*#float_panel ul li{
     display: block;
     list-style: none;
     margin: 8px 0px;
-}
-/*検索パネル*/
-#search{
+}*/
+/*上級パネル*/
+#adv{
+
     min-height: 50px;
+}
+#adv > ul >li{
+    display: block;
+    list-style: none;
+    margin: 8px 0px;
+    text-align: left;
 }
 /*ブックマークパネル*/
 #bookmark{
@@ -197,6 +289,7 @@ margin: 0 4px;
 /******/
 #map_wrap{
 overflow:hidden;
+position: relative;
 }
 
 #map_canvas{
@@ -233,8 +326,7 @@ div.box{
 /*一括選択リスト*/
 #area_list{
     text-align: center;
-    max-height: 300px;
-    overflow-y: scroll;
+    overflow: hidden;
 }
 #area_list ul li{
     display: block;
@@ -273,4 +365,19 @@ padding-bottom: 4px;
     text-align: center;
     opacity: 0.6;
     display: none;
+}
+
+
+/*Gmapの吹き出しの中*/
+/*未貼付け*/
+.info_w_contents.open{
+    background-color: #FFFFFF;
+}
+/*終了*/
+.info_w_contents.close{
+    background-color: #F1F1F1;
+}
+/*その他*/
+.info_w_contents.other{
+    background-color: #F1F1F1;
 }

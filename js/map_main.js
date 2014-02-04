@@ -7,10 +7,12 @@ PROXY_URL="ba-simple-proxy.php";
 API_KEY="2a78b1a65702832d27b817a908b42f227f8dc377";//todo::APIキー 最終はキーなしで取得出来る必要あり
 CAT_URL="http://beta.shirasete.jp/projects/ieiri-poster/issue_categories.json";
 ISSU_URL="http://beta.shirasete.jp/projects/ieiri-poster/issues.json";
+ISSU_LIMIT=100;//1回のリクエスト件数の上限
 MAXZOOM=19;
 MINZOOM=9;
 DEFAULT_LAT=35.69623329057935;
 DEFAULT_LNG=139.70226834829097;
+
 var currentInfoWindow;
 
 $(function() {
@@ -78,13 +80,17 @@ function initialize(plat,plng,zoom) {
             opl.append('<li><label><input type="checkbox" name="" value="'+val['id']+'" />'+val['name']+'</label></li>');
         });
 
-        var acbtn=$('<hr/><a href="javascript:void(0);" onclick="()" class="btn center">表示</a>');
+        var acbtn=$('<hr/><a href="javascript:void(0);" onclick="()" class="exec btn center">表示</a>');
         acbtn.bind("click",function(eve){
             //選択した行政区のリストを生成し、行政区に該当する掲示板の問い合わせ
             var ids=[];
             $(':checked',opl).each(function(){
                 ids.push($(this).val());
             });
+            if(ids.length>5){
+                alert("選択は5件以内にして下さい");
+                return;
+            }
             m_map_data_manager.map_data_clear();
             m_map_data_manager.set_category_ids(ids);
             m_map_data_manager.load_data();
@@ -132,13 +138,34 @@ function initialize(plat,plng,zoom) {
     timer = setTimeout(re_size_window_comp, 500);
   });
 
-  //地図データ変更完了時処理
+    //地図データ変更完了時処理
     $(document).bind("on_map_data_change_befor", function(){
         show_load_lock();//読み込み中画面の表示
     });
     $(document).bind("on_map_data_change_after", function(){
         hide_load_lock();//読み込み中画面の解除
         hide_float_panel();
+    });
+
+    //ポスター件数受信時
+    $(document).bind("on_map_data_receive_info", function(eve,request_args,status_info){
+        //件数表示とstatusアイコンの切り替え
+        var info_data= m_map_data_manager.get_load_record_info();
+        $("#map_data_receive_info").text(info_data.now_cnt+"/"+info_data.total_count+"件");
+        status_id=info_data.status_id;
+        //呼び出すstatusによって左のmarkerを変える
+        ico={"open":"js/marker_r.png","close":"js/marker_b.png","mark":"marker_g.png"};
+        $("#map_data_receive_roading_mark").attr("src",ico[status_id]);
+    });
+    //ポスター件数　データ要求中
+    $(document).bind("on_map_data_requesting", function(eve,request_args){
+        $("#map_data_receive_roading_img").show();
+        $("#map_data_receive_roading_mark").hide();
+    });
+    //ポスター件数　データ要求完了
+    $(document).bind("on_map_data_completion", function(eve){
+        $("#map_data_receive_roading_img").hide();
+        $("#map_data_receive_roading_mark").show();
     });
 
     //センター移動
@@ -188,12 +215,18 @@ function re_size_window_comp(){
   var rp=$("#right_wrap").position();
   var wh=$(window).height();
   var ww=$(window).width();
-  var mp=$("#map_canvas").position();
-    var rl=ww-($("#right_wrap").width());
+  var mp=$("#map_wrap").position();
+  //var mp=$("#map_canvas").position();
+    //var rl=ww-($("#right_wrap").width());
   //var rl=ww-($("#right_wrap").width()+20);//20はスクロールバー分
-  $("#right_wrap").css({left:rl});
-  $("#map_canvas").css({width:rl,height:wh-mp.top});
+  //$("#right_wrap").css({left:rl});
+  $("#map_canvas").css({width:ww,height:wh-mp.top});
   google.maps.event.trigger(map, 'resize');
+
+    var margin_side=50;
+    var margin_bottom=70;
+    var margin_top=100;
+  $("#float_panel").css({top:margin_top,left:margin_side/2,width:ww-margin_side,height:wh-mp.top-margin_bottom});
 }
 
 
@@ -214,8 +247,12 @@ function move_area_address(){
     {
         if (st == google.maps.GeocoderStatus.OK) {
       var location = res[0].geometry.location;
-      map.panTo(location);
-      hide_float_panel();
+      //map.panTo(location);
+
+    m_map_data_manager.map_data_clear();
+    m_map_data_manager.set_location([location.lat(),location.lng()]);
+    m_map_data_manager.load_nearby_data();
+
     }else if(st ==google.maps.GeocoderStatus.INVALID_REQUEST||st ==google.maps.GeocoderStatus.ZERO_RESULTS){
       alert("入力した住所では場所が特定出来ませんでした。\n入力した住所に間違いが無いか確認して下さい。\nまた市区町村は必ず入れて下さい。");
     }else{
@@ -266,17 +303,17 @@ function show_float_panel(type){
     $("#float_panel").show();
     //$("#"+type).show();
     switch (type){
-        case "search":
-            $("#search").show();
-            break;
         case "bookmark":
             $("#bookmark").show();
             init_book_mark();
             break;
         case "info":
             $("#info").show();
-
             break;
+        case "adv":
+            $("#adv").show();
+            break;
+
     }
 }
 /**
@@ -331,9 +368,9 @@ function book_mark(tar,id){
 
 
 /**
- * 地図の中心位置から近くの掲示板を取得 todo::実装検討
+ * 現在の地図の中心位置から近くの掲示板を取得 todo::実装検討
  */
-function debug_get_pos(){
+function load_now_mappos_data(){
   var latlng=  map.getCenter();
     hide_load_lock();
     m_map_data_manager.map_data_clear();
