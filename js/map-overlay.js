@@ -59,6 +59,7 @@ MapOverlay.prototype.show_info = function(flg) {
         }
         this.info.open(this.map_,this.marker);
         currentInfoWindow=this.info;
+        twttr.widgets.load();
     }else{
         this.info.close();
         currentInfoWindow=undefined;
@@ -74,6 +75,7 @@ MapOverlay.prototype.refresh=function(){
     if(this.data_.status.id==1){
         //未貼り付け
         var t_str='完了したら↓↓をtwitterにコピペで報告<br/><textarea onfocus="tweet_txt_copy(\'tweet_txt_'+id+'\')" id="tweet_txt_'+id+'" class="tweet_txt" name="tweet_txt" >'+TWEET_FORMAT.replace('<$subject$>',subject)+'</textarea>';
+        t_str += '<br /><a href="https://twitter.com/intent/tweet?screen_name=posterdone&text=' + subject + '%20%23%E5%AE%B6%E5%85%A5%E3%83%9D%E3%82%B9%E3%82%BF%E3%83%BC%E8%B2%BC%E3%81%A3%E3%81%A6%E3%82%8B%E3%81%A3%E3%81%A6%E3%82%88' + '" class="twitter-mention-button" data-lang="ja">Tweet to @posterdone</a>';
         //this.info.setContent('<div class="info_w_contents open" style="margin: 5px;">' +'ID:'+id+'<br/>'+subject + '<br/>' + description+'<br/>●'+this.data_.status.name+'<hr/><a onclick="book_mark(this,'+id+')" class="btn comp'+(is_select?" selected":"")+'" >Mark</a></div>');
         this.info.setContent('<div class="info_w_contents open" style="margin: 5px;">' +'ID:'+id+'<br/>'+subject + '<br/>' + description+'<br/>●'+this.data_.status.name+'<hr/>'+t_str+'</div>');
     }else{
