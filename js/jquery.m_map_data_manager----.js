@@ -104,7 +104,7 @@ $.m_map_data_manager = function(element, options) {
         }
         //
         function _load(cat_id,offset){
-            offset=(isNaN(parseInt(offset)))?0:offset;
+            offset=(!offset)?0:offset;
             var request_args={'key':API_KEY,'status_id':plugin.settings.status_id,'category_id':cat_id,'offset':offset,'limit':ISSU_LIMIT};
             $(element).trigger("on_map_data_requesting",[request_args]);//データ要求中イベント
             if(DEBUG_PROXY){
@@ -174,7 +174,7 @@ $.m_map_data_manager = function(element, options) {
         for(var i in _overlay){
             var ov=_overlay[i];
             if(ov){
-                ov.get_marker().setMap(null);
+                ov.setMap(null);
                 delete _overlay[i];
             }
         }
@@ -362,6 +362,7 @@ $.m_map_data_manager = function(element, options) {
                 _add_map_list.push(i);
                 _map_data[i]=list[i];
             }
+
         };
 
         /*
@@ -384,21 +385,15 @@ $.m_map_data_manager = function(element, options) {
    * 追加・削除する掲示板データを元にマーカーを追加・削除
    */
   var _map_data_draw=function(){
-    var mcs=[];
     for (var i in _add_map_list){
       var id=_add_map_list[i];
 
       var data=_map_data[id];
       if(data){
         _overlay[id]=new MapOverlay(map, data,plugin,_select_comp_list);
-          mcs.push(_overlay[id].get_marker());//markerclusterでの表示（間引き表示）
-          _overlay[id].onAdd();//todo::MapOverlay改修 不要メソッドの整理
-          //_overlay[id].get_marker().setMap(map);//マーカーでの表示
       }
 
     }
-     // markerclusterを表示
-     var markerCluster = new MarkerClusterer( map, mcs,  { gridSize: 50, maxZoom: 15} );
 
     /*
          //---------------------------//
@@ -453,7 +448,8 @@ $.m_map_data_manager = function(element, options) {
      */
     var _set_load_record_info=function(request_args,data){
         var status_id=request_args.status_id;
-        var category_id=isNaN(parseInt(request_args.category_id))?0:status_id;
+        var category_id=request_args.category_id;
+        if(!category_id){return;}
         var limit=data.limit;
         var offset=data.offset;
         var total_count=data.total_count;

@@ -13,7 +13,7 @@ MAXZOOM=19;
 MINZOOM=9;
 DEFAULT_LAT=35.69623329057935;
 DEFAULT_LNG=139.70226834829097;
-TWEET_FORMAT="「@posterdone <$subject$> #家入ポスター貼ってるってよ」";
+TWEET_FORMAT="@posterdone <$subject$> #家入ポスター貼ってるってよ";
 var currentInfoWindow;
 
 $(function() {
@@ -132,12 +132,12 @@ function initialize(plat,plng,zoom) {
         m_map_data_manager.set_status($(this).val());
         m_map_data_manager.load_data();
     });
-  //ウインドウリサイズ完了
-  var timer = null;
-  $(window).bind("resize",function(){
-    if (timer){clearTimeout(timer);};
-    timer = setTimeout(re_size_window_comp, 500);
-  });
+      //ウインドウリサイズ完了
+      var timer = null;
+      $(window).bind("resize",function(){
+        if (timer){clearTimeout(timer);};
+        timer = setTimeout(re_size_window_comp, 500);
+      });
 
     //地図データ変更完了時処理
     $(document).bind("on_map_data_change_befor", function(){
@@ -178,6 +178,7 @@ function initialize(plat,plng,zoom) {
         if(currentInfoWindow){
             currentInfoWindow.close();
         }
+        hide_float_panel();//フロートパネル閉じる
     })
 
   //ズーム変更
@@ -300,13 +301,28 @@ function hide_float_panel(){
  * @param type
  */
 function show_float_panel(type){
-    $("#float_panel > div").hide();
-    $("#float_panel").show();
-    //$("#"+type).show();
+    var tar_div=$("#"+type);
+
+    if(tar_div.is(':visible')){
+        //tar_div.hide();
+        $("#float_panel > div").hide();
+        $("#float_panel").hide();
+        return;
+    }else{
+        $("#float_panel").show();
+        $("#float_panel > div").hide();
+        tar_div.show();
+    }
+    /*
     switch (type){
         case "bookmark":
-            $("#bookmark").show();
-            init_book_mark();
+            if($("#bookmark").is(':visible')){
+                $("#bookmark").show();
+            }else{
+
+            }
+
+
             break;
         case "info":
             $("#info").show();
@@ -314,8 +330,14 @@ function show_float_panel(type){
         case "adv":
             $("#adv").show();
             break;
+    }   */
 
+    //ブックマークの場合のみ初期化処理
+    if($("#bookmark").is(':visible')){
+        init_book_mark();
     }
+
+
 }
 /**
  * ブックマークの初期化

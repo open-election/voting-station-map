@@ -10,9 +10,8 @@
     <link href="js/map_style.css" rel="stylesheet" media="all" type="text/css" />
     <!-- <link href="/img/apple-touch-icon-120x120.png" sizes="120x120" rel="apple-touch-icon" /> -->
 
-    <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.6.4.min.js"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-    <script type="text/javascript" src="js/markerclusterer_compiled.js"></script>
     <script type="text/javascript" src="js/jquery.m_map_data_manager.js"></script>
     <script type="text/javascript" src="js/date.js"></script>
     <script type="text/javascript" src="js/map-overlay.js"></script>
@@ -38,7 +37,8 @@
 <a id="adv_btn" href="javascript:void(0);" onclick="show_float_panel('adv')" >★</a>
 </div>
   <div id="float_panel">
-       <!-- <a href="javascript:void(0);" onclick="hide_float_panel()" class="btn close">Close</a>-->
+        <a href="javascript:void(0);" onclick="hide_float_panel()" class="btn close">Close</a>
+
         <div id="bookmark">
             <textarea name="bookmark_list_txte" id="bookmark_list_txte" cols="45" rows="20"></textarea>
             <hr/>
@@ -47,7 +47,7 @@
         <div id="info">
             <iframe id="info_area" src="info.html" ></iframe>
         </div>
-        <div id="adv">
+      <div id="adv">
               <ul>
                   <li>
                       <h1>行政区 一括選択</h1>
@@ -60,14 +60,13 @@
                       <p>住所から、該当する地域の付近の掲示板を表示</p>
                       <p>注意）APIの都合場、その位置を中心とした近い順に最大100件のみ表示されます。</p>
                       <input name="move_area_address" class="input_text_mid" type="text" id="move_area_address" value=""/>
-                      <a href="javascript:void(0);" onclick="hide_float_panel();move_area_address()" class="exec btn">移動</a>
+                      <a href="javascript:void(0);" onclick="move_area_address()" class="exec btn">移動</a>
                   </li>
                   <!--<a href="javascript:void(0);" onclick="show_info()" class="btn ">吹出し表示</a>-->
                     <li>
                         <h1>[試験機能]現在の地図の中心位置から近くの掲示板を表示</h1>
                         <p>現在表示している地図の位置にある掲示板を表示</p>
                         <p>注意）APIの都合場、その位置を中心とした近い順に最大100件のみ表示されます。</p>
-                        <a href="javascript:void(0);" onclick="hide_float_panel();load_now_mappos_data()" class="exec btn">表示</a>
                     </li>
               </ul>
       </div>
