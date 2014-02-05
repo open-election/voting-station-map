@@ -297,6 +297,7 @@ position: relative;
 height:550px;
 position:absolute;
 top:34px;left:0;*/
+  height: 100%;
 }
 
 #right_wrap{
