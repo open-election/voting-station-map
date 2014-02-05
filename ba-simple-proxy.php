@@ -1,7 +1,6 @@
 <?PHP
 ini_set( "display_errors", "Off");
 
-
 // ############################################################################
 
 $url = $_GET['url'];
@@ -20,15 +19,32 @@ while ($flag) {
     $json->{'issues'} = array_merge($json->{'issues'}, $_json->{'issues'});
   }
 
-  if (count($json->{'issues'}) >= $max) {
+  if (isset($json->{'issues'}) && count($json->{'issues'}) >= $max) {
     $flag = false;
   } else if (isset($json->{'total_count'}) && isset($json->{'issues'}) && $json->{'total_count'} > count($json->{'issues'})) {
-    $url = $_GET['url'] . "&offset=" . count($json->{'issues'});
+
+    if (strpos(parse_url($_GET['url'], PHP_URL_QUERY), 'offset') !== false) {
+      preg_match('/.*offset=(\d+)/', $url, $match);
+      $before_offset = intval($match[1]);
+      $next_offset = $before_offset + count($json->{'issues'});
+
+      if ($next_offset >= $json->{'total_count'}) {
+        $flag = false;
+        continue;
+      }
+      $url = preg_replace('/offset=\d+/', 'offset=' . $next_offset, $_GET['url']);
+
+    } else {
+      $url = $_GET['url'] . "&offset=" . count($json->{'issues'});
+    }
+
   } else {
     $flag = false;
   }
 }
-
+if (isset($json->{'issues'})) {
+  $json->{'limit'} = count($json->{'issues'});
+}
 print json_encode($json);
 
 function getJson($url) {

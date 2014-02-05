@@ -116,7 +116,7 @@ $.m_map_data_manager = function(element, options) {
           //load_data用CB //上限以上のレコードがある場合はoffsetを追加してさらに読み込む
           function _cb(d){
               //len、limit、offsetが無い場合の担保（無限ロード防止）
-              var limit=(d.limit)?d.limit:ISSU_LIMIT;
+              var limit=(d.issues.length)?d.issues.length:ISSU_LIMIT;
               var offset=(d.offset)? d.offset:0;
               var total_count=(d.total_count)? d.total_count:0;
               _set_load_record_info(request_args,d);//レコード情報を設定
