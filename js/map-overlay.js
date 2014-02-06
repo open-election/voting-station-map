@@ -79,8 +79,8 @@ MapOverlay.prototype.refresh=function(){
     if(this.data_.status.id==1){
         //未貼り付け
         var t_str='完了したらtwitterに報告<br/><textarea id="tweet_txt_'+id+'" class="tweet_txt" name="tweet_txt" >'+TWEET_FORMAT.replace('<$subject$>',subject)+'</textarea>';
-        t_str += '<br /><br /><a href="https://twitter.com/intent/tweet?screen_name=posterdone&text=' + subject + '%20%23%E5%AE%B6%E5%85%A5%E3%83%9D%E3%82%B9%E3%82%BF%E3%83%BC%E8%B2%BC%E3%81%A3%E3%81%A6%E3%82%8B%E3%81%A3%E3%81%A6%E3%82%88' + '" class="twitter-mention-button" data-lang="ja">Tweet to @posterdone</a>';
-        if(navigator.userAgent.search(/iPhone/) != -1){
+        t_str += '<br /><br /><a href="https://twitter.com/intent/tweet?text=' + encodeURIComponent(TWEET_FORMAT.replace('<$subject$>',subject)) + '" class="twitter-mention-button" data-lang="ja">Tweet to @posterdone</a>';
+        if(navigator.userAgent.search(/iPhone|Android/) != -1){
           t_str += '<br /><br /><a style="text-decoration: underline;" href="twitter://post?message=' + encodeURIComponent(TWEET_FORMAT.replace('<$subject$>',subject)) + '"</a>twitterアプリでツイート</a>';
         }
         //this.info.setContent('<div class="info_w_contents open" style="margin: 5px;">' +'ID:'+id+'<br/>'+subject + '<br/>' + description+'<br/>●'+this.data_.status.name+'<hr/><a onclick="book_mark(this,'+id+')" class="btn comp'+(is_select?" selected":"")+'" >Mark</a></div>');
