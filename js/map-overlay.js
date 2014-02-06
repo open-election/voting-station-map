@@ -59,6 +59,7 @@ MapOverlay.prototype.show_info = function(flg) {
             currentInfoWindow.close();
         }
         this.info.open(this.map_,this.marker);
+        this.map_.panTo(new google.maps.LatLng(this.latlng.lat() + 0.005, this.latlng.lng()));
         currentInfoWindow=this.info;
         twttr.widgets.load();
     }else{
