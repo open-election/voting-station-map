@@ -79,7 +79,7 @@ MapOverlay.prototype.refresh=function(){
     if(this.data_.status.id==1){
         //未貼り付け
         var t_str='完了したらtwitterに報告<br/><textarea id="tweet_txt_'+id+'" class="tweet_txt" name="tweet_txt" >'+TWEET_FORMAT.replace('<$subject$>',subject)+'</textarea>';
-        t_str += '<br /><br /><a href="https://twitter.com/intent/tweet?text=' + encodeURIComponent(TWEET_FORMAT.replace('<$subject$>',subject)) + '" class="twitter-mention-button" data-lang="ja">Tweet to @posterdone</a>';
+        t_str += '<br /><br /><a href="https://twitter.com/intent/tweet?url=null&text=' + encodeURIComponent(TWEET_FORMAT.replace('<$subject$>',subject)) + '" class="twitter-mention-button" data-lang="ja">Tweet to @posterdone</a>';
         if(navigator.userAgent.search(/iPhone|Android/) != -1){
           t_str += '<br /><br /><a style="text-decoration: underline;" href="twitter://post?message=' + encodeURIComponent(TWEET_FORMAT.replace('<$subject$>',subject)) + '"</a>twitterアプリでツイート</a>';
         }
