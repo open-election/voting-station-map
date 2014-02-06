@@ -13,9 +13,7 @@
     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
-    <script type="text/javascript" src="js/markerclusterer_compiled_edit.js"></script>
-    <!--<script type="text/javascript" src="js/markerclusterer.js"></script>-->
-    <!--<script type="text/javascript" src="js/markerclusterer_compiled.js"></script>-->
+    <script type="text/javascript" src="js/markerclusterer_compiled.js"></script>
     <script type="text/javascript" src="js/jquery.m_map_data_manager.js"></script>
     <script type="text/javascript" src="js/date.js"></script>
     <script type="text/javascript" src="js/map-overlay.js"></script>
@@ -53,6 +51,11 @@
         <div id="adv">
               <ul>
                   <li>
+                      <h1>掲示板データについて</h1>
+                      <p>このアプリは、以下のデータを元にAPIから随時取得して表示しています。</p>
+                      <p><a href="http://beta.shirasete.jp/projects/ieiri-poster/issues" target="_blank">http://beta.shirasete.jp/projects/ieiri-poster/issues</a></p>
+                  </li>
+                  <li>
                       <h1>行政区 一括選択</h1>
                       <p>表示する行政区を一括で表示します</p>
                       <p>注意）APIの負荷軽減の為、選択は最大5件までです。スマホ等ではフリーズする場合があります。</p>
@@ -76,7 +79,7 @@
       </div>
     </div>
   <div id="map_wrap" >
-      <div id="map_data_receive_info_wrap"><img id="map_data_receive_roading_mark" src="js/marker_r.png" width="80" height="80" alt=""/><img id="map_data_receive_roading_img" src="js/loading.gif" width="80" height="80" alt=""/><div id="map_data_receive_info">未受信</div></div>
+      <div id="map_data_receive_info_wrap"><img id="map_data_receive_roading_img" src="js/loading.gif" width="80" height="80" alt=""/><div id="map_data_receive_info">未受信</div></div>
       <div id="map_canvas" ></div>
   </div>
 <div id="load_lock"><img src="js/loading.gif" />検索中</div>

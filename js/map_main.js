@@ -10,7 +10,7 @@ ISSU_URL="http://beta.shirasete.jp/projects/ieiri-poster/issues.json";
 ISSU_LIMIT=100;//1回のリクエスト件数の上限
 ZOOM_LEVEL=15;
 MAXZOOM=19;
-MINZOOM=9;
+MINZOOM=8;
 DEFAULT_LAT=35.69623329057935;
 DEFAULT_LNG=139.70226834829097;
 TWEET_FORMAT="@posterdone <$subject$> #家入ポスター貼ってるってよ";
@@ -74,9 +74,10 @@ function initialize(plat,plng,zoom) {
         $.getJSON(CAT_URL,{'key':API_KEY},cb);
     }
     function cb(d){
+        if(!d.issue_categories){return;}
+        m_map_data_manager.set_issue_categories(d.issue_categories);
         //行政区の移動 リスト版////////
         var opl=$('<ul/>');
-        if(!d.issue_categories){return;}
         $.each(d.issue_categories,function(i,val){
             opl.append('<li><label><input type="checkbox" name="" value="'+val['id']+'" />'+val['name']+'</label></li>');
         });
@@ -90,7 +91,7 @@ function initialize(plat,plng,zoom) {
             });
             if(ids.length>5){
                 alert("選択は5件以内にして下さい");
-                return;
+               return;
             }
             m_map_data_manager.map_data_clear();
             m_map_data_manager.set_category_ids(ids);
@@ -154,11 +155,16 @@ function initialize(plat,plng,zoom) {
     $(document).bind("on_map_data_receive_info", function(eve,request_args,status_info){
         //件数表示とstatusアイコンの切り替え
         var info_data= m_map_data_manager.get_load_record_info();
-        $("#map_data_receive_info").text(info_data.now_cnt+"/"+info_data.total_count+"件");
-        status_id=info_data.status_id;
+        now_cnt=info_data.now_cnt;
         //呼び出すstatusによって左のmarkerを変える
-        ico={"open":"js/marker_r.png","close":"js/marker_b.png","mark":"marker_g.png"};
-        $("#map_data_receive_roading_mark").attr("src",ico[status_id]);
+        ico={1:"js/marker_r.png",5:"js/marker_b.png",99:"marker_g.png"};
+        var html="";
+        for(var i in now_cnt){
+            html+='<img src="'+ico[i]+'"/><span>'+now_cnt[i]+'</span>';
+        };
+        html+='<span>/'+info_data.total_count+'件</span>';
+        $("#map_data_receive_info").empty();
+        $("#map_data_receive_info").html(html);
     });
     //ポスター件数　データ要求中
     $(document).bind("on_map_data_requesting", function(eve,request_args){
@@ -387,10 +393,11 @@ function clear_book_mark(){
 function show_load_lock(){
     var jq_img=$("#load_lock img");
     jq_img.css({"marginTop":(($(window).height() - jq_img.height()) / 2) + "px"});
-    $("#load_lock").fadeIn();
+    jq_img.fadeIn();
 }
 function hide_load_lock(){
-    $("#load_lock").fadeOut();
+    var jq_img=$("#load_lock img");
+    jq_img.fadeOut();
 }
 
 
@@ -418,3 +425,4 @@ function is_phone(){
    // return ((device.indexOf('iPhone') > 0 && device.indexOf('iPad') == -1) || device.indexOf('iPod') > 0 || device.indexOf('Android') > 0);
     return ((device.indexOf('iPhone') >0)|| (device.indexOf('iPad')>0)|| (device.indexOf('iPod') >0) || (device.indexOf('Android') >0));
 }
+

@@ -187,7 +187,7 @@ margin: 0 4px;
 #map_data_receive_info_wrap{
     background-color: #333;
     position: absolute;
-    width: 80px;
+    width: 160px;
     height: 28px;
     overflow: hidden;
     border: 1px solid #ccc;
@@ -217,6 +217,16 @@ margin: 0 4px;
     font-size: 10px;
     font-weight: normal;
 }
+#map_data_receive_info img{
+    width: 26px;
+    height: 28px;
+    vertical-align: middle;
+}
+#map_data_receive_info span{
+    color: #FFFFFF;
+    margin-left: 2px;
+}
+
 /**パネル**/
 #float_panel{
     position: absolute;
@@ -335,13 +345,13 @@ div.box{
     border: 1px solid #666;
     background-color: #fff;
     margin: 2px;
-    padding: 4px;
     width: 110px;
     overflow: hidden;
-
 }
 #area_list label{
     font-size: 12px;
+    display: block;
+    margin: 4px;
 }
 #area_list hr{
     clear: both;

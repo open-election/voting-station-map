@@ -2,35 +2,51 @@
 // marker
 //=============================================================================
 var MarkerCluster;
-
+//markerのSTATUS種類　1:未完了 5:完了　99:ブックマーク時のアイコン色
+MAKER_STATUS_S={
+    0:{'color':'336699'},//default
+    1:{'color':'FC7790'},
+    5:{'color':'32ceff'},
+    99:{'color':'44f186'}//マーク
+};
+MARKERCLUSTER_GRIDSIZE=50;
+MARKERCLUSTER_MAXZOOM=15;
+MARKERCLUSTER_IMG_DIR="js/markers/";//マーカのディレクトリ　「markers/ステータスID/1〜5.png」
 
 function MapOverlay(map,data,manager_ref,select_comp_list) {
     if(!MarkerCluster){
-        MarkerCluster=new MarkerClusterer(map);
-        MarkerCluster.setGridSize(50);
-        MarkerCluster.setMaxZoom(15);
+        MarkerCluster={};
+        for(i in MAKER_STATUS_S){
+            MarkerCluster[i]=new MarkerClusterer(map,[],{
+                imagePath:MARKERCLUSTER_IMG_DIR+i+"/m",
+                imageExtension:"png"
+            });
+            MarkerCluster[i].setGridSize(MARKERCLUSTER_GRIDSIZE);
+            MarkerCluster[i].setMaxZoom(MARKERCLUSTER_MAXZOOM);
+        }
     }
+
     this.select_comp_list=select_comp_list;
     this.map_ = map;
     this.data_ = data;
     this.id=data.id;
     this.info= new google.maps.InfoWindow();
     this.info.setOptions({"disableAutoPan":false});//吹き出しを地図の中心に持ってくるか
-    this.marker_color={1:'FC7790',5:'32ceff',99:'44f186'};//1:未完了 5:完了　99:ブックマーク時のアイコン色
     this.latlng=null;
+    this.status_id=MAKER_STATUS_S[data.status.id]?data.status.id:0;//MAKER_STATUS_Sに定義された物以外はdefaultのマークに
+
     var geo=eval("a="+this.data_.geometry);
     if(geo.coordinates){
         if(!isNaN(parseInt(geo.coordinates[1]))&& !isNaN(parseInt(geo.coordinates[0]))){
             this.latlng=new google.maps.LatLng(geo.coordinates[1],geo.coordinates[0]);
         }else{
-            this.latlng=new google.maps.LatLng("39.8781539650443","139.84579414129257");//往く当てが無いなら富士山でも登りたい
+            this.latlng=new google.maps.LatLng("39.8781539650443","139.84579414129257");//往くアテが無いなら富士山でも登りたい
         }
     }
-
     //this.marker = new google.maps.Marker({'map': this.map_,'position': this.latlng});
     this.marker = new google.maps.Marker();
     this.marker.setPosition(this.latlng);
-    MarkerCluster.addMarker(this.marker); // markerclusterを表示（間引き表示）
+    MarkerCluster[this.status_id].addMarker(this.marker); // markerclusterを表示（間引き表示）
 
     // this.marker.setMap(map);//マーカーでの表示
 
@@ -46,7 +62,7 @@ function MapOverlay(map,data,manager_ref,select_comp_list) {
  */
 MapOverlay.prototype.createIco_img = function(is_select) {
     var status_id=this.data_.status.id;
-    var color=is_select?this.marker_color[99]:this.marker_color[status_id];
+    var color=is_select?MAKER_STATUS_S[99].color:MAKER_STATUS_S[status_id].color;
     var status= this.data_.status.name.substring(0,1);
     return "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld="+status+"|"+color+"|000000";
 }
@@ -79,9 +95,9 @@ MapOverlay.prototype.refresh=function(){
     if(this.data_.status.id==1){
         //未貼り付け
         var t_str='完了したらtwitterに報告<br/><textarea id="tweet_txt_'+id+'" class="tweet_txt" name="tweet_txt" >'+TWEET_FORMAT.replace('<$subject$>',subject)+'</textarea>';
-        t_str += '<br /><br /><a href="https://twitter.com/intent/tweet?screen_name=posterdone&text=' + subject + '%20%23%E5%AE%B6%E5%85%A5%E3%83%9D%E3%82%B9%E3%82%BF%E3%83%BC%E8%B2%BC%E3%81%A3%E3%81%A6%E3%82%8B%E3%81%A3%E3%81%A6%E3%82%88' + '" class="twitter-mention-button" data-lang="ja">Tweet to @posterdone</a>';
-        if(navigator.userAgent.search(/iPhone/) != -1){
-          t_str += '<br /><br /><a style="text-decoration: underline;" href="twitter://post?message=' + encodeURIComponent(TWEET_FORMAT.replace('<$subject$>',subject)) + '"</a>twitterアプリでツイート</a>';
+        t_str += '<br /><br /><a href="https://twitter.com/intent/tweet?text=' + encodeURIComponent(TWEET_FORMAT.replace('<$subject$>',subject)) + '&url=null" class="twitter-mention-button" data-lang="ja">Tweet to @posterdone</a>';
+        if(navigator.userAgent.search(/iPhone|Android/) != -1){
+            t_str += '<br /><br /><a style="text-decoration: underline;" href="twitter://post?message=' + encodeURIComponent(TWEET_FORMAT.replace('<$subject$>',subject)) + '"</a>twitterアプリでツイート</a>';
         }
         //this.info.setContent('<div class="info_w_contents open" style="margin: 5px;">' +'ID:'+id+'<br/>'+subject + '<br/>' + description+'<br/>●'+this.data_.status.name+'<hr/><a onclick="book_mark(this,'+id+')" class="btn comp'+(is_select?" selected":"")+'" >Mark</a></div>');
         this.info.setContent('<div class="info_w_contents open" style="margin: 5px;">' +'ID:'+id+'<br/>'+subject + '<br/>' + description+'<br/>●'+this.data_.status.name+'<hr/>'+t_str+'</div>');
@@ -99,7 +115,18 @@ MapOverlay.prototype.get_marker_position=function(){
 MapOverlay.prototype.get_marker=function(){
     return this.marker;
 }
+/**
+ * markerの削除
+ */
 MapOverlay.prototype.delete_marker=function(){
-    MarkerCluster.removeMarker(this.marker);
-}
+    MarkerCluster[this.status_id].removeMarker(this.marker);
 
+}
+/**
+ * markerの一括消去 staticメソッド的に動作
+ */
+MapOverlay.prototype.clear_markers=function(){
+    for(i in MarkerCluster){
+        MarkerCluster[i].clearMarkers();
+    }
+}

@@ -29,6 +29,7 @@ $.m_map_data_manager = function(element, options) {
   var _is_show_info=false;
   var _zoomLevel;
   var _load_record_info={};//読み込み対象のレコード情報を行政区別に格納
+  var _issue_categories={};
   ////////usr constructor//////////////
   plugin.init = function() {
     plugin.settings = $.extend({}, defaults, options);//デフォルト値の上書き
@@ -89,7 +90,20 @@ $.m_map_data_manager = function(element, options) {
     plugin.set_location=function(array){
         plugin.settings.location=array;
     }
-
+    /**
+     * カテゴリーデータを設定
+     */
+    plugin.set_issue_categories=function(cat){
+        $.each(cat,function(i,val){
+            _issue_categories[val.id]=val.name;
+        });
+    }
+    /**
+     * カテゴリ名を取得
+     */
+    plugin.get_issue_categorie_names=function(){
+        return _issue_categories;
+    }
   /**
    * 行政区に該当する掲示板の問い合わせ
    */
@@ -126,6 +140,9 @@ $.m_map_data_manager = function(element, options) {
               }else{
                   $(element).trigger("on_map_data_completion");//データ要求完了イベント
               }
+                //取得地域 debug
+              console.log("/cat_id:"+cat_id+" "+plugin.get_issue_categorie_names()[cat_id]+" issues:" + d.issues.length+"/ status_id:"+plugin.settings.status_id);
+
               _receive_new_area(d);
           }
         }
@@ -171,12 +188,10 @@ $.m_map_data_manager = function(element, options) {
      * マーカーデータのclear
      */
     plugin.map_data_clear=function(){
+        MapOverlay.prototype.clear_markers();//markerの一括消去
         for(var i in _overlay){
-            var ov=_overlay[i];
-            if(ov){
-                ov.delete_marker();
+            if(_overlay[i]){
                 delete _overlay[i];
-                //ov.get_marker().setMap(null);
             }
         }
         _map_data={};
@@ -204,9 +219,7 @@ $.m_map_data_manager = function(element, options) {
             map.setCenter(new google.maps.LatLng(DEFAULT_LAT,DEFAULT_LNG));
             map.setZoom(ZOOM_LEVEL);
         }
-
     }
-
 
     /**
      * ブックマークの追加
@@ -270,11 +283,13 @@ $.m_map_data_manager = function(element, options) {
      */
     plugin.get_load_record_info=function(){
         var total_count=0;
-        var now_cnt=0;
+        var now_cnt={};
         var status_id;
         for(var i in _load_record_info){
             total_count+=_load_record_info[i].total_count;
-            now_cnt+=_load_record_info[i].now_cnt;
+            for(var m in _load_record_info[i].now_cnt){
+                    now_cnt[m]=now_cnt[m]?now_cnt[m]+_load_record_info[i].now_cnt[m]:_load_record_info[i].now_cnt[m];
+            }
             status_id=_load_record_info[i].status_id;// ∞対1
         }
         return{'status_id':status_id,'now_cnt':now_cnt,'total_count':total_count,'detail':_load_record_info};
@@ -338,12 +353,11 @@ $.m_map_data_manager = function(element, options) {
    * マーカーデータの受信時
    */
   var _receive_new_area= function(json_d){
-    //console.log("issues = " + json_d.issues.length);
     _data_substitution(json_d);
     _map_data_draw();//マーカーの描画
-        plugin.set_current_map_position();
-        //データ更新完了イベント
-        $(element).trigger("on_map_data_change_after");
+    plugin.set_current_map_position();
+    //データ更新完了イベント
+    $(element).trigger("on_map_data_change_after");
   };
 
   /**
@@ -358,7 +372,9 @@ $.m_map_data_manager = function(element, options) {
             if(_geometry_str_check(val.geometry)){
                 list[val.id]=val;
             }else{
-                console.log("//err/////",'\t id:'+val.id+'\t description:'+val.description+'\t subject:'+val.subject+'\t geometry:'+val.geometry);
+                if(val){
+                    console.log("//err/////",'\t id:'+val.id+'\t description:'+val.description+'\t subject:'+val.subject+'\t geometry:'+val.geometry);
+                }
             }
         });
 
@@ -371,10 +387,10 @@ $.m_map_data_manager = function(element, options) {
             }
         };
 
-        /*
-         //---------------------------//
-         //API側で経度緯度で該当する掲示板を返せるような仕様ならば、以下で画面外のマーカーを削除する
-         //---------------------------//
+    /*
+     //---------------------------//
+     //API側で経度緯度で該当する掲示板を返せるような仕様ならば、以下で画面外のマーカーを削除する
+     //---------------------------//
     //削除される差分を検出（追加したdata以外の物）
     _del_map_list=[];
     for(var d in _map_data){
@@ -382,9 +398,6 @@ $.m_map_data_manager = function(element, options) {
         _del_map_list.push(d);
       }
     }*/
-
-    //_map_data=list;
-
   };
 
   /**
@@ -397,14 +410,9 @@ $.m_map_data_manager = function(element, options) {
       var data=_map_data[id];
       if(data){
         _overlay[id]=new MapOverlay(map, data,plugin,_select_comp_list);
-       // mcs.push(_overlay[id].get_marker());//markerclusterでの表示（間引き表示）
         _overlay[id].refresh();
-          //_overlay[id].get_marker().setMap(map);//マーカーでの表示
       }
     }
-      //MarkerCluster.redraw()
-    // markerclusterを表示（間引き表示）
-   // var markerCluster = new MarkerClusterer( map, mcs,  { gridSize: 50, maxZoom: 15} );
 
     /*
      //---------------------------//
@@ -415,7 +423,7 @@ $.m_map_data_manager = function(element, options) {
       var id=_del_map_list[d];
       var ov=_overlay[id];
       if(ov){
-        ov.setMap(null);
+        ov.delete_marker();
         delete _overlay[id];
       }
     }*/
@@ -459,22 +467,40 @@ $.m_map_data_manager = function(element, options) {
      */
     var _set_load_record_info=function(request_args,data){
         var status_id=request_args.status_id;
-        var category_id=isNaN(parseInt(request_args.category_id))?0:status_id;
+        var category_id=isNaN(parseInt(request_args.category_id))?0:request_args.category_id;
         var limit=data.limit;
         var offset=data.offset;
         var total_count=data.total_count;
-        var len=(data.issues instanceof Array)? data.issues.length:0;
-        var status_info={'category_id':category_id,'status_id':status_id,'now_cnt':offset+len,'total_count':total_count};
+        var lens={};
+        if(data.issues instanceof Array){
+            for(var i in data.issues){
+                var t=data.issues[i].status.id;
+                if(t){
+                    lens[t]=lens[t]?++lens[t]:1;
+                }
+            }
+        }
+        //var len=(data.issues instanceof Array)? data.issues.length:0;
+      //  var status_info={'category_id':category_id,'status_id':status_id,'now_cnt':offset+len,'total_count':total_count};
+
+        // unコード
+        if(_load_record_info[category_id]){
+            for(var i in _load_record_info[category_id].now_cnt){
+                lens[i]=lens[i]?lens[i]+_load_record_info[category_id].now_cnt[i]:_load_record_info[category_id].now_cnt[i];
+            }
+        }
+        var status_info={'category_id':category_id,'status_id':status_id,'now_cnt':lens,'total_count':total_count};
         _load_record_info[category_id]=status_info;
+
         $(element).trigger("on_map_data_receive_info",[request_args,status_info]);//受信件数状況イベント通知
     }
+
     /**
      * 読み込み対象のレコード情報を初期化
      */
     var _clear_load_record_info=function(){
         _load_record_info={};
     }
-
 
     /**
      * objectのlengthを算出
