@@ -15,7 +15,7 @@ function MapOverlay(map,data,manager_ref,select_comp_list) {
     this.data_ = data;
     this.id=data.id;
     this.info= new google.maps.InfoWindow();
-    this.info.setOptions({"disableAutoPan":true});//吹き出しを地図の中心に持ってくるか
+    this.info.setOptions({"disableAutoPan":false});//吹き出しを地図の中心に持ってくるか
     this.marker_color={1:'FC7790',5:'32ceff',99:'44f186'};//1:未完了 5:完了　99:ブックマーク時のアイコン色
     this.latlng=null;
     var geo=eval("a="+this.data_.geometry);
@@ -78,7 +78,7 @@ MapOverlay.prototype.refresh=function(){
     //完了時と未貼り付け時で吹き出しを変える
     if(this.data_.status.id==1){
         //未貼り付け
-        var t_str='完了したら↓↓をtwitterにコピペで報告<br/><textarea onfocus="tweet_txt_copy(\'tweet_txt_'+id+'\')" id="tweet_txt_'+id+'" class="tweet_txt" name="tweet_txt" >'+TWEET_FORMAT.replace('<$subject$>',subject)+'</textarea>';
+        var t_str='完了したらtwitterに報告<br/><textarea id="tweet_txt_'+id+'" class="tweet_txt" name="tweet_txt" >'+TWEET_FORMAT.replace('<$subject$>',subject)+'</textarea>';
         t_str += '<br /><br /><a href="https://twitter.com/intent/tweet?screen_name=posterdone&text=' + subject + '%20%23%E5%AE%B6%E5%85%A5%E3%83%9D%E3%82%B9%E3%82%BF%E3%83%BC%E8%B2%BC%E3%81%A3%E3%81%A6%E3%82%8B%E3%81%A3%E3%81%A6%E3%82%88' + '" class="twitter-mention-button" data-lang="ja">Tweet to @posterdone</a>';
         if(navigator.userAgent.search(/iPhone/) != -1){
           t_str += '<br /><br /><a style="text-decoration: underline;" href="twitter://post?message=' + encodeURIComponent(TWEET_FORMAT.replace('<$subject$>',subject)) + '"</a>twitterアプリでツイート</a>';

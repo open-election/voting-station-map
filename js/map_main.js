@@ -399,22 +399,6 @@ function book_mark(tar,id){
     var res=m_map_data_manager.tlg_bookmark(id);
 }
 
-/*テキストareaの全選択*/
-function tweet_txt_copy(tar_id){
-    /*var tar=$("#"+tar_id);
-    var text =tar[0];
-    var end = text.value.length;
-    text.focus();
-    text.setSelectionRange(0,end);
-
-
-    setTimeout(function() {
-        var dummy = $('.info_w_contents')[0];
-        dummy.focus();
-    },500);
-     */
-}
-
 /**
  * 現在の地図の中心位置から近くの掲示板を取得 todo::実装検討
  */
