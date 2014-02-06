@@ -120,6 +120,8 @@ function initialize(plat,plng,zoom) {
             };
         })
         $('#move_area_distince').empty().append(op);
+
+        re_size_window_comp();//画面サイズの再計算（スマホの場合、プルダウンの長さでヘッダー高さが変わる）
     }
 
     //=============================================================================
@@ -182,7 +184,9 @@ function initialize(plat,plng,zoom) {
     })
 
   //ズーム変更
-  google.maps.event.addListener(map, 'zoom_changed', function(){});
+  google.maps.event.addListener(map, 'zoom_changed', function(){
+    //  console.log(map.getZoom());
+  });
   //ドラッグ移動終了　
   google.maps.event.addListener(map, 'dragend',function(){
     //ドラッグ移動終了＞画面停止イベント ドラッグ終了後の「idle」にバインド
@@ -215,16 +219,23 @@ function initialize(plat,plng,zoom) {
 function re_size_window_comp(){
   //パネル配置計算
   var rp=$("#right_wrap").position();
-  var wh=$(window).height();
-  var ww=$(window).width();
+  var wh=window.innerHeight;
+  var ww=window.innerWidth;
   var mp=$("#map_wrap").position();
+    var mobile_address_bar_height=is_phone()?window.outerHeight-window.innerHeight:0;
+
+
+
   //var mp=$("#map_canvas").position();
     //var rl=ww-($("#right_wrap").width());
   //var rl=ww-($("#right_wrap").width()+20);//20はスクロールバー分
   //$("#right_wrap").css({left:rl});
-  $("#map_canvas").css({width:ww,height:wh-mp.top});
+  $("#map_canvas").css({width:ww,height:wh-mp.top-mobile_address_bar_height});
   google.maps.event.trigger(map, 'resize');
 
+
+
+    //floatパネル
     var margin_side=50;
     var margin_bottom=70;
     var margin_top=100;
@@ -413,4 +424,13 @@ function load_now_mappos_data(){
     m_map_data_manager.map_data_clear();
     m_map_data_manager.set_location([latlng.lat(),latlng.lng()]);
     m_map_data_manager.load_nearby_data();
+}
+
+/*
+* スマホの判定
+* */
+function is_phone(){
+    var device = navigator.userAgent;
+   // return ((device.indexOf('iPhone') > 0 && device.indexOf('iPad') == -1) || device.indexOf('iPod') > 0 || device.indexOf('Android') > 0);
+    return ((device.indexOf('iPhone') >0)|| (device.indexOf('iPad')>0)|| (device.indexOf('iPod') >0) || (device.indexOf('Android') >0));
 }

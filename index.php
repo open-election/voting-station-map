@@ -12,7 +12,10 @@
 
     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-    <script type="text/javascript" src="js/markerclusterer_compiled.js"></script>
+
+    <script type="text/javascript" src="js/markerclusterer_compiled_edit.js"></script>
+    <!--<script type="text/javascript" src="js/markerclusterer.js"></script>-->
+    <!--<script type="text/javascript" src="js/markerclusterer_compiled.js"></script>-->
     <script type="text/javascript" src="js/jquery.m_map_data_manager.js"></script>
     <script type="text/javascript" src="js/date.js"></script>
     <script type="text/javascript" src="js/map-overlay.js"></script>

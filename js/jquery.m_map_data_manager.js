@@ -174,8 +174,9 @@ $.m_map_data_manager = function(element, options) {
         for(var i in _overlay){
             var ov=_overlay[i];
             if(ov){
-                ov.get_marker().setMap(null);
+                ov.delete_marker();
                 delete _overlay[i];
+                //ov.get_marker().setMap(null);
             }
         }
         _map_data={};
@@ -197,7 +198,8 @@ $.m_map_data_manager = function(element, options) {
         }
         if(obj_len){
             map.setCenter(bounds.getCenter());
-            map.setZoom(ZOOM_LEVEL);
+            //map.setZoom(ZOOM_LEVEL);
+            map.setZoom(_getBoundsZoomLevel(bounds,map_div_size));
         }else{
             map.setCenter(new google.maps.LatLng(DEFAULT_LAT,DEFAULT_LNG));
             map.setZoom(ZOOM_LEVEL);
@@ -336,7 +338,7 @@ $.m_map_data_manager = function(element, options) {
    * マーカーデータの受信時
    */
   var _receive_new_area= function(json_d){
-    console.log("issues = " + json_d.issues.length);
+    //console.log("issues = " + json_d.issues.length);
     _data_substitution(json_d);
     _map_data_draw();//マーカーの描画
         plugin.set_current_map_position();
@@ -352,7 +354,12 @@ $.m_map_data_manager = function(element, options) {
         if(!data.issues){return;}
         var list={};
         $.each(data.issues,function(i,val){
-            list[val.id]=val;
+            //geometryのlatlngの値をチェックしnullの物は除外する（nullだとmarker生成で影響が出る）
+            if(_geometry_str_check(val.geometry)){
+                list[val.id]=val;
+            }else{
+                console.log("//err/////",'\t id:'+val.id+'\t description:'+val.description+'\t subject:'+val.subject+'\t geometry:'+val.geometry);
+            }
         });
 
     //新しく追加される差分を検出
@@ -387,24 +394,23 @@ $.m_map_data_manager = function(element, options) {
     var mcs=[];
     for (var i in _add_map_list){
       var id=_add_map_list[i];
-
       var data=_map_data[id];
       if(data){
         _overlay[id]=new MapOverlay(map, data,plugin,_select_comp_list);
-          mcs.push(_overlay[id].get_marker());//markerclusterでの表示（間引き表示）
-          _overlay[id].onAdd();//todo::MapOverlay改修 不要メソッドの整理
+       // mcs.push(_overlay[id].get_marker());//markerclusterでの表示（間引き表示）
+        _overlay[id].refresh();
           //_overlay[id].get_marker().setMap(map);//マーカーでの表示
       }
-
     }
-     // markerclusterを表示
-     var markerCluster = new MarkerClusterer( map, mcs,  { gridSize: 50, maxZoom: 15} );
+      //MarkerCluster.redraw()
+    // markerclusterを表示（間引き表示）
+   // var markerCluster = new MarkerClusterer( map, mcs,  { gridSize: 50, maxZoom: 15} );
 
     /*
-         //---------------------------//
-         //API側で経度緯度で該当する掲示板を返せるような仕様ならば、以下で画面外のマーカーを削除する
-         //---------------------------//
-         //エリアの削除
+     //---------------------------//
+     //API側で経度緯度で該当する掲示板を返せるような仕様ならば、以下で画面外のマーカーを削除する
+     //---------------------------//
+     //エリアの削除
     for (var d in _del_map_list){
       var id=_del_map_list[d];
       var ov=_overlay[id];
@@ -479,6 +485,21 @@ $.m_map_data_manager = function(element, options) {
            ++cnt;
         }
         return cnt;
+    }
+
+    /**
+     * geometryのlatlngの値をチェック
+     * @returns {*}  値がある場合は [lat,lng] 無い場合はundefined
+     */
+    var _geometry_str_check=function(geometry_str){
+        var geo=eval("a="+geometry_str);
+        if(geo.coordinates){
+            if(!isNaN(parseInt(geo.coordinates[1]))&& !isNaN(parseInt(geo.coordinates[0]))){
+                return true;
+            }else{
+                return false;
+            }
+        }
     }
 //=============================================================================
 // plgin private method
