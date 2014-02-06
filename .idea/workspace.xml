@@ -17,10 +17,8 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/js/markerclusterer.js" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/js/markerclusterer_compiled.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.php" afterPath="$PROJECT_DIR$/index.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/jquery.m_map_data_manager.js" afterPath="$PROJECT_DIR$/js/jquery.m_map_data_manager.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/map-overlay.js" afterPath="$PROJECT_DIR$/js/map-overlay.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/map_main.js" afterPath="$PROJECT_DIR$/js/map_main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/map_style.css" afterPath="$PROJECT_DIR$/js/map_style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="map-src.iws" />
@@ -46,7 +44,7 @@
     <favorites_list name="map-src" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="vertical" split-proportion="0.47905028">
+    <splitter split-orientation="vertical" split-proportion="0.7067039">
       <split-first>
         <leaf>
           <file leaf-file-name="jquery.m_map_data_manager.js" pinned="false" current="false" current-in-tab="false">
@@ -61,7 +59,7 @@
           <file leaf-file-name="map_main.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/js/map_main.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="164" column="22" selection-start="5756" selection-end="5756" vertical-scroll-proportion="-6.923077" vertical-offset="2250" max-vertical-offset="6480">
+                <state line="395" column="20" selection-start="11855" selection-end="11855" vertical-scroll-proportion="-7.3461537" vertical-offset="5704" max-vertical-offset="6480">
                   <folding />
                 </state>
               </provider>
@@ -70,11 +68,11 @@
           <file leaf-file-name="map-overlay.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/js/map-overlay.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="5" column="14" selection-start="235" selection-end="249" vertical-scroll-proportion="-1.7307693" vertical-offset="0" max-vertical-offset="2040">
+                <state line="132" column="0" selection-start="5030" selection-end="5030" vertical-scroll-proportion="-75.0" vertical-offset="0" max-vertical-offset="2040">
                   <folding>
-                    <marker date="1391709823000" expanded="true" signature="3666:3693" placeholder="..." />
-                    <marker date="1391709823000" expanded="true" signature="4182:4194" placeholder="..." />
-                    <marker date="1391709823000" expanded="true" signature="4411:4423" placeholder="..." />
+                    <marker date="1391716727000" expanded="true" signature="3666:3693" placeholder="..." />
+                    <marker date="1391716727000" expanded="true" signature="4182:4194" placeholder="..." />
+                    <marker date="1391716727000" expanded="true" signature="4411:4423" placeholder="..." />
                   </folding>
                 </state>
               </provider>
@@ -83,7 +81,7 @@
           <file leaf-file-name="index.php" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/index.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="81" column="164" selection-start="4304" selection-end="4325" vertical-scroll-proportion="-8.208333" vertical-offset="1018" max-vertical-offset="1410">
+                <state line="84" column="45" selection-start="4432" selection-end="4432" vertical-scroll-proportion="-12.125" vertical-offset="969" max-vertical-offset="1410">
                   <folding />
                 </state>
               </provider>
@@ -92,7 +90,7 @@
           <file leaf-file-name="map_style.css" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/js/map_style.css">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="189" column="13" selection-start="3239" selection-end="3239" vertical-scroll-proportion="0.2214533" vertical-offset="2771" max-vertical-offset="6090">
+                <state line="189" column="13" selection-start="3239" selection-end="3239" vertical-scroll-proportion="0.7057522" vertical-offset="2516" max-vertical-offset="6090">
                   <folding />
                 </state>
               </provider>
@@ -105,7 +103,7 @@
           <file leaf-file-name="jquery.m_map_data_manager.js" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/js/jquery.m_map_data_manager.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="491" column="81" selection-start="15143" selection-end="15150" vertical-scroll-proportion="0.4882943" vertical-offset="7219" max-vertical-offset="8280">
+                <state line="491" column="81" selection-start="15143" selection-end="15150" vertical-scroll-proportion="1.0735294" vertical-offset="7219" max-vertical-offset="8280">
                   <folding />
                 </state>
               </provider>
@@ -154,17 +152,17 @@
         <option value="$PROJECT_DIR$/index-.php" />
         <option value="$PROJECT_DIR$/js/jquery.m_map_data_manager-.js" />
         <option value="$PROJECT_DIR$/js/map-overlay-.js" />
-        <option value="$PROJECT_DIR$/js/map-overlay.js" />
-        <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/js/jquery.m_map_data_manager.js" />
-        <option value="$PROJECT_DIR$/js/map_main.js" />
         <option value="$PROJECT_DIR$/js/map_style.css" />
+        <option value="$PROJECT_DIR$/js/map-overlay.js" />
+        <option value="$PROJECT_DIR$/js/map_main.js" />
+        <option value="$PROJECT_DIR$/index.php" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="219" />
+    <option name="x" value="220" />
     <option name="y" value="43" />
     <option name="width" value="1430" />
     <option name="height" value="930" />
@@ -344,7 +342,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="219" y="43" width="1430" height="930" extended-state="0" />
+    <frame x="220" y="43" width="1430" height="930" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14761905" sideWeight="0.4985591" order="7" side_tool="false" content_ui="tabs" />
@@ -434,9 +432,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="71" column="169" selection-start="2495" selection-end="2495" vertical-scroll-proportion="0.0" vertical-offset="1065" max-vertical-offset="1635">
           <folding>
-            <marker date="1391709823000" expanded="true" signature="3666:3693" placeholder="..." />
-            <marker date="1391709823000" expanded="true" signature="4182:4194" placeholder="..." />
-            <marker date="1391709823000" expanded="true" signature="4411:4423" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="3666:3693" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="4182:4194" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="4411:4423" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -497,9 +495,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="15" column="27" selection-start="667" selection-end="667" vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="1635">
           <folding>
-            <marker date="1391709823000" expanded="true" signature="3666:3693" placeholder="..." />
-            <marker date="1391709823000" expanded="true" signature="4182:4194" placeholder="..." />
-            <marker date="1391709823000" expanded="true" signature="4411:4423" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="3666:3693" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="4182:4194" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="4411:4423" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -515,9 +513,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="70" column="80" selection-start="2271" selection-end="2271" vertical-scroll-proportion="0.0" vertical-offset="1050" max-vertical-offset="1485">
           <folding>
-            <marker date="1391709823000" expanded="true" signature="3666:3693" placeholder="..." />
-            <marker date="1391709823000" expanded="true" signature="4182:4194" placeholder="..." />
-            <marker date="1391709823000" expanded="true" signature="4411:4423" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="3666:3693" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="4182:4194" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="4411:4423" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -547,9 +545,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="70" column="80" selection-start="2271" selection-end="2271" vertical-scroll-proportion="0.0" vertical-offset="1050" max-vertical-offset="1485">
           <folding>
-            <marker date="1391709823000" expanded="true" signature="3666:3693" placeholder="..." />
-            <marker date="1391709823000" expanded="true" signature="4182:4194" placeholder="..." />
-            <marker date="1391709823000" expanded="true" signature="4411:4423" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="3666:3693" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="4182:4194" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="4411:4423" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -593,9 +591,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="70" column="80" selection-start="2271" selection-end="2271" vertical-scroll-proportion="0.0" vertical-offset="1050" max-vertical-offset="1485">
           <folding>
-            <marker date="1391709823000" expanded="true" signature="3666:3693" placeholder="..." />
-            <marker date="1391709823000" expanded="true" signature="4182:4194" placeholder="..." />
-            <marker date="1391709823000" expanded="true" signature="4411:4423" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="3666:3693" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="4182:4194" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="4411:4423" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -625,9 +623,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="70" column="80" selection-start="2271" selection-end="2271" vertical-scroll-proportion="0.0" vertical-offset="1050" max-vertical-offset="1485">
           <folding>
-            <marker date="1391709823000" expanded="true" signature="3666:3693" placeholder="..." />
-            <marker date="1391709823000" expanded="true" signature="4182:4194" placeholder="..." />
-            <marker date="1391709823000" expanded="true" signature="4411:4423" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="3666:3693" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="4182:4194" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="4411:4423" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -657,9 +655,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="70" column="80" selection-start="2271" selection-end="2271" vertical-scroll-proportion="0.0" vertical-offset="735" max-vertical-offset="1485">
           <folding>
-            <marker date="1391709823000" expanded="true" signature="3666:3693" placeholder="..." />
-            <marker date="1391709823000" expanded="true" signature="4182:4194" placeholder="..." />
-            <marker date="1391709823000" expanded="true" signature="4411:4423" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="3666:3693" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="4182:4194" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="4411:4423" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -726,20 +724,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="164" selection-start="4304" selection-end="4325" vertical-scroll-proportion="-8.208333" vertical-offset="1018" max-vertical-offset="1410">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/map-overlay.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="14" selection-start="235" selection-end="249" vertical-scroll-proportion="-1.7307693" vertical-offset="0" max-vertical-offset="2040">
+        <state line="132" column="0" selection-start="5030" selection-end="5030" vertical-scroll-proportion="-75.0" vertical-offset="0" max-vertical-offset="2040">
           <folding>
-            <marker date="1391709823000" expanded="true" signature="3666:3693" placeholder="..." />
-            <marker date="1391709823000" expanded="true" signature="4182:4194" placeholder="..." />
-            <marker date="1391709823000" expanded="true" signature="4411:4423" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="3666:3693" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="4182:4194" placeholder="..." />
+            <marker date="1391716727000" expanded="true" signature="4411:4423" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -753,14 +744,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/map_main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="164" column="22" selection-start="5756" selection-end="5756" vertical-scroll-proportion="-6.923077" vertical-offset="2250" max-vertical-offset="6480">
+        <state line="395" column="20" selection-start="11855" selection-end="11855" vertical-scroll-proportion="-7.3461537" vertical-offset="5704" max-vertical-offset="6480">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="84" column="45" selection-start="4432" selection-end="4432" vertical-scroll-proportion="-12.125" vertical-offset="969" max-vertical-offset="1410">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/map_style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="189" column="13" selection-start="3239" selection-end="3239" vertical-scroll-proportion="0.2214533" vertical-offset="2771" max-vertical-offset="6090">
+        <state line="189" column="13" selection-start="3239" selection-end="3239" vertical-scroll-proportion="0.7057522" vertical-offset="2516" max-vertical-offset="6090">
           <folding />
         </state>
       </provider>
