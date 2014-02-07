@@ -86,7 +86,8 @@ function MapOverlay(map,data,manager_ref,select_comp_list) {
  * アイコン生成
  */
 MapOverlay.prototype.createIco_img = function(is_select) {
-    var status_id=this.data_.status.id;
+
+    var status_id=this.status_id;
     var color=is_select?MAKER_STATUS_S[99].color:MAKER_STATUS_S[status_id].color;
     var status= this.data_.status.name.substring(0,1);
     return "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld="+status+"|"+color+"|000000";
