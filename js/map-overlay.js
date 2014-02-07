@@ -2,6 +2,7 @@
 // marker
 //=============================================================================
 var MarkerCluster;
+var MapOverlay_Overlap_chlist={};
 //markerのSTATUS種類　1:未完了 5:完了　99:ブックマーク時のアイコン色
 MAKER_STATUS_S={
     0:{'color':'336699'},//default
@@ -12,6 +13,8 @@ MAKER_STATUS_S={
 MARKERCLUSTER_GRIDSIZE=50;
 MARKERCLUSTER_MAXZOOM=15;
 MARKERCLUSTER_IMG_DIR="js/markers/";//マーカのディレクトリ　「markers/ステータスID/1〜5.png」
+
+
 
 function MapOverlay(map,data,manager_ref,select_comp_list) {
     if(!MarkerCluster){
@@ -43,19 +46,41 @@ function MapOverlay(map,data,manager_ref,select_comp_list) {
             this.latlng=new google.maps.LatLng("39.8781539650443","139.84579414129257");//往くアテが無いなら富士山でも登りたい
         }
     }
+
     //this.marker = new google.maps.Marker({'map': this.map_,'position': this.latlng});
     this.marker = new google.maps.Marker();
+
+    //重なる場合は5mづつ右に座標をずらす
+    var ch=_ad_overlap_man(this.latlng);
+    if(ch){
+        this.latlng=_m_to_latlon(this.latlng,5*ch,5*ch);
+    };
+
     this.marker.setPosition(this.latlng);
+
     MarkerCluster[this.status_id].addMarker(this.marker); // markerclusterを表示（間引き表示）
-
     // this.marker.setMap(map);//マーカーでの表示
-
-
     /* マーカーがクリックされた時 */
     var self=this;
     google.maps.event.addListener(this.marker, 'click', function() {
         self.show_info(true);
     });
+
+
+    //重なり管理用
+    function _ad_overlap_man(latlng){
+       var v= latlng.toUrlValue();
+        MapOverlay_Overlap_chlist[v]=(MapOverlay_Overlap_chlist[v]==undefined)?0:++MapOverlay_Overlap_chlist[v];
+        return MapOverlay_Overlap_chlist[v];
+    }
+    //距離から緯度経度変換
+    function _m_to_latlon(latlng,x,y){
+        var eh=6378137;
+        var lat= (x / eh * Math.cos(latlng.lng() * Math.PI / 180) + latlng.lat() * (Math.PI  / 180)) * (180 / Math.PI );
+        var lng=(y /eh +latlng.lng() *(Math.PI  / 180)) * (180 / Math.PI );
+        return new google.maps.LatLng(lat,lng);
+    }
+
 }
 /**
  * アイコン生成
@@ -119,8 +144,11 @@ MapOverlay.prototype.get_marker=function(){
  * markerの削除
  */
 MapOverlay.prototype.delete_marker=function(){
+    var p=this.marker.getPosition();
+    if(p){
+        MapOverlay_Overlap_chlist[p]=(MapOverlay_Overlap_chlist[p])?--MapOverlay_Overlap_chlist[p]:undefined;
+    }
     MarkerCluster[this.status_id].removeMarker(this.marker);
-
 }
 /**
  * markerの一括消去 staticメソッド的に動作
@@ -129,4 +157,5 @@ MapOverlay.prototype.clear_markers=function(){
     for(i in MarkerCluster){
         MarkerCluster[i].clearMarkers();
     }
+    MapOverlay_Overlap_chlist={};
 }

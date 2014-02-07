@@ -392,14 +392,13 @@ function clear_book_mark(){
  */
 function show_load_lock(){
     var jq_img=$("#load_lock");
-    $("#load_lock img").css({"marginTop":(($(window).height() - jq_img.height()) / 2) + "px"});
+    $("#load_lock img").css({"marginTop":($(window).height() / 2) + "px"});
     jq_img.fadeIn();
 }
 function hide_load_lock(){
     var jq_img=$("#load_lock");
     jq_img.fadeOut();
 }
-
 
 //ブックマーク処理
 function book_mark(tar,id){
