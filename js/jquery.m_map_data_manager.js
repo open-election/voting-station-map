@@ -214,7 +214,7 @@ $.m_map_data_manager = function(element, options) {
         if(obj_len){
             map.setCenter(bounds.getCenter());
             //map.setZoom(ZOOM_LEVEL);
-            map.setZoom(_getBoundsZoomLevel(bounds,map_div_size));
+            map.setZoom(_getBoundsZoomLevel(bounds,map_div_size)+1);//1段よけいにズーム調整
         }else{
             map.setCenter(new google.maps.LatLng(DEFAULT_LAT,DEFAULT_LNG));
             map.setZoom(ZOOM_LEVEL);
