@@ -2,20 +2,16 @@
 // エントリーポイント
 //=============================================================================
 DEBUG_PROXY=true;
-PROXY_URL="ba-simple-proxy.php";
 
-//API_KEY="2a78b1a65702832d27b817a908b42f227f8dc377";//todo::APIキー 最終はキーなしで取得出来る必要あり
-//CAT_URL="http://beta.shirasete.jp/projects/ieiri-poster/issue_categories.json";
 CAT_URL="/issue_categories.json";
-//ISSU_URL="http://beta.shirasete.jp/projects/ieiri-poster/issues.json";
 ISSU_URL="/issues.json";
 ISSU_LIMIT=100;//1回のリクエスト件数の上限
 ZOOM_LEVEL=15;
 MAXZOOM=19;
 MINZOOM=8;
-DEFAULT_LAT=35.69623329057935;
-DEFAULT_LNG=139.70226834829097;
-TWEET_FORMAT="@posterdone <$subject$> #家入ポスター貼ってるってよ";
+DEFAULT_LAT=34.6938877;
+DEFAULT_LNG=135.50192900000002;
+TWEET_FORMAT="@macposterdone <$subject$> #マック赤坂ポスター祭";
 var currentInfoWindow;
 
 $(function() {
