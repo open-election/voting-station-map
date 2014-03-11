@@ -24,7 +24,7 @@ How to use on heroku?
 > git push -u heroku master
 ```
 
-SHIRASETE_API_KEYs
+SHIRASETE_PROJECT_IDs
 ---------------------
 
 * 22 for 2014年東京都知事選挙 家入陣営
