@@ -1,10 +1,12 @@
 //=============================================================================
 // エントリーポイント
 //=============================================================================
-DEBUG_PROXY=true;
+//DEBUG_PROXY=true;
 
 CAT_URL="/issue_categories.json";
 ISSU_URL="/issues.json";
+/*CAT_URL="./debug_data/issue_categories.json";
+ISSU_URL="./debug_data/issues.json";*/
 ISSU_LIMIT=100;//1回のリクエスト件数の上限
 ZOOM_LEVEL=15;
 MAXZOOM=19;
