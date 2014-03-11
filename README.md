@@ -19,6 +19,14 @@ How to use on heroku?
 
 ```
 > heroku create
+> heroku config:set SHIRASETE_API_KEY='xxxxxxxxxxXXXXXXXxxXXXxxxxxxXX' SHIRASETE_PROJECT_ID=22
 > git remote add heroku ${HEROKU GIT REPO}
 > git push -u heroku master
 ```
+
+SHIRASETE_API_KEYs
+---------------------
+
+* 22 for 2014年東京都知事選挙 家入陣営
+* 23 for 2014年大阪市長選挙 マック赤坂陣営
+
