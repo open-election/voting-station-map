@@ -32,6 +32,7 @@ function MapOverlay(map,data,manager_ref,select_comp_list) {
     this.select_comp_list=select_comp_list;
     this.map_ = map;
     this.data_ = data;
+    this.priority=data.priority.id;//優先度2014/03/12 add
     this.id=data.id;
     this.info= new google.maps.InfoWindow();
     this.info.setOptions({"disableAutoPan":false});//吹き出しを地図の中心に持ってくるか
@@ -46,6 +47,7 @@ function MapOverlay(map,data,manager_ref,select_comp_list) {
             this.latlng=new google.maps.LatLng("39.8781539650443","139.84579414129257");//往くアテが無いなら富士山でも登りたい
         }
     }
+
 
     //this.marker = new google.maps.Marker({'map': this.map_,'position': this.latlng});
     this.marker = new google.maps.Marker();
@@ -85,12 +87,21 @@ function MapOverlay(map,data,manager_ref,select_comp_list) {
 /**
  * アイコン生成
  */
-MapOverlay.prototype.createIco_img = function(is_select) {
+MapOverlay.prototype.createIco_img = function(is_select,is_large) {
 
     var status_id=this.status_id;
     var color=is_select?MAKER_STATUS_S[99].color:MAKER_STATUS_S[status_id].color;
     var status= this.data_.status.name.substring(0,1);
-    return "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld="+status+"|"+color+"|000000";
+    var rv="";
+    //アイコンの大小
+    if(is_large){
+        rv="http://chart.apis.google.com/chart?chst=d_map_spin&chld=0.8|0|"+color+"|16|b|"+status;
+    }else{
+        rv="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld="+status+"|"+color+"|000000";
+    }
+    return rv;
+
+
 }
 
 /**
@@ -117,6 +128,8 @@ MapOverlay.prototype.refresh=function(){
     var description=this.data_.description;
     var subject=this.data_.subject;
     var is_select=this.select_comp_list[id];
+
+    var is_large=(this.priority==5);//todo::優先度が「今すぐ：5」ならマーカーのサイズを大きくする
     //完了時と未貼り付け時で吹き出しを変える
     if(this.data_.status.id==1){
         //未貼り付け
@@ -131,7 +144,8 @@ MapOverlay.prototype.refresh=function(){
         //完了・その他
         this.info.setContent('<div class="info_w_contents close other" style="margin: 5px;">' +'ID:'+id+'<br/>'+subject + '<br/>' + description+'<br/>●'+this.data_.status.name+"</div>");
     }
-    this.marker.setIcon(this.createIco_img(is_select));
+
+    this.marker.setIcon(this.createIco_img(is_select,is_large));
 }
 
 

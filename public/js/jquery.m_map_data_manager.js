@@ -119,13 +119,15 @@ $.m_map_data_manager = function(element, options) {
         //
         function _load(cat_id,offset){
             offset=(isNaN(parseInt(offset)))?0:offset;
-            var request_args={'key':API_KEY,'status_id':plugin.settings.status_id,'category_id':cat_id,'offset':offset,'limit':ISSU_LIMIT};
+            //var request_args={'key':API_KEY,'status_id':plugin.settings.status_id,'category_id':cat_id,'offset':offset,'limit':ISSU_LIMIT};
+            var request_args={'status_id':plugin.settings.status_id,'category_id':cat_id,'offset':offset,'limit':ISSU_LIMIT};
             $(element).trigger("on_map_data_requesting",[request_args]);//データ要求中イベント
-            if(DEBUG_PROXY){
-              $.getJSON(PROXY_URL,{'url':ISSU_URL+'?'+ $.param(request_args)},_cb);
-            }else{
-              $.getJSON(ISSU_URL,request_args,_cb);
-            }
+            //if(DEBUG_PROXY){
+            //  $.getJSON(PROXY_URL,{'url':ISSU_URL+'?'+ $.param(request_args)},_cb);
+            //}else{
+            //  $.getJSON(ISSU_URL,request_args,_cb);
+            //}
+            $.getJSON(ISSU_URL, request_args, _cb);
 
           //load_data用CB //上限以上のレコードがある場合はoffsetを追加してさらに読み込む
           function _cb(d){
@@ -158,13 +160,15 @@ $.m_map_data_manager = function(element, options) {
         //データ更新前イベント
         $(element).trigger("on_map_data_change_befor");
         _clear_load_record_info();
-        var request_args={'key':API_KEY,'status_id':plugin.settings.status_id,'sort':'geom:' + loc.join(','),'offset':0,'limit':ISSU_LIMIT};
+        //var request_args={'key':API_KEY,'status_id':plugin.settings.status_id,'sort':'geom:' + loc.join(','),'offset':0,'limit':ISSU_LIMIT};
+        var request_args={'status_id':plugin.settings.status_id,'sort':'geom:' + loc.join(','),'offset':0,'limit':ISSU_LIMIT};
         $(element).trigger("on_map_data_requesting",[request_args]);//データ要求中イベント
-        if(DEBUG_PROXY){
-          $.getJSON(PROXY_URL,{'url':ISSU_URL+'?'+ $.param(request_args)},_cb);
-        }else{
-          $.getJSON(ISSU_URL,request_args,_cb);
-        }
+        //if(DEBUG_PROXY){
+        //  $.getJSON(PROXY_URL,{'url':ISSU_URL+'?'+ $.param(request_args)},_cb);
+        //}else{
+        //  $.getJSON(ISSU_URL,request_args,_cb);
+        //}
+        $.getJSON(ISSU_URL, request_args, _cb);
 
       //load_data用CB //上限以上のレコードがある場合はoffsetを追加してさらに読み込む
       function _cb(d){
