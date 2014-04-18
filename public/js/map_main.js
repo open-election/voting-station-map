@@ -105,7 +105,7 @@ function initialize(plat,plng,zoom) {
         var op=$('<select/>');
         if(!d.issue_categories){return;}
         var g=d.issue_categories;
-        op.append('<option value="">地域を選択</option>');
+        op.append('<option value="">投票所の種類を選択</option>');
 
         $.each(g,function(i,val){
             op.append('<option value="'+val['id']+'">'+val['name']+'</option>');

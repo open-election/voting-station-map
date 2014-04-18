@@ -1,7 +1,5 @@
-BoardMap
+Voting Station Map
 ---------
-
-![BoardMap](https://f.cloud.github.com/assets/72997/2061916/75b7c09c-8c72-11e3-9602-2089755939e7.png)
 
 Development
 --------------------
@@ -27,6 +25,5 @@ How to use on heroku?
 SHIRASETE_PROJECT_IDs
 ---------------------
 
-* 22 for 2014年東京都知事選挙 家入陣営
-* 32 for 2014年大阪市長選挙 マック赤坂陣営
+* 34 for all
 
